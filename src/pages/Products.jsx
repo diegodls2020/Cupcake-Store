@@ -1,43 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ProductCard from '../components/ProductCard';
-import cremaImg from '../assets/crema.jpg';
-import chocolateImg from '../assets/chocolate.jpg';
-import amendoImg from '../assets/amendo.jpg';
-import docedeleiteImg from '../assets/doce de leite.jpg';
 
+// Utilizamos el hook useState y useEffect para manejar la solicitud al backend
 const Products = ({ addToCart }) => {
-  const [quantities, setQuantities] = useState({});
-  
-  // Lista de productos
-  const products = [
-    { id: 1, name: 'Cupcake de Vainilla', price: 5.00, image: cremaImg },
-    { id: 2, name: 'Cupcake de Chocolate', price: 5.00, image: chocolateImg },
-    { id: 3, name: 'Cupcake de Almendra', price: 5.00, image: amendoImg },
-    { id: 4, name: 'Cupcake de Dulce de Leche', price: 5.00, image: docedeleiteImg },
-    { id: 5, name: 'Cupcake de Fresa', price: 5.50, image: cremaImg },
-    { id: 6, name: 'Cupcake de Limón', price: 4.80, image: chocolateImg },
-    { id: 7, name: 'Cupcake de Nuez', price: 6.00, image: amendoImg },
-    { id: 8, name: 'Cupcake de Menta', price: 5.20, image: docedeleiteImg },
-  ];
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const handleQuantityChange = (productId, delta) => {
-    setQuantities(prev => {
-      const newQuantity = (prev[productId] || 0) + delta;
-      return newQuantity >= 0 ? { ...prev, [productId]: newQuantity } : prev;
-    });
-  };
+  // Fetch de productos desde el backend
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        // Solicitud al backend para obtener los productos
+        const response = await fetch('http://localhost:5000/api/products'); // URL del backend
+        const data = await response.json();
+        
+        // Guardamos los productos en el estado
+        setProducts(data); 
+      } catch (error) {
+        console.error("Error fetching products: ", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []); // Solo se ejecuta una vez cuando el componente se monta
 
   return (
-    <div className="product-list">
-      {products.map(product => (
-        <ProductCard
-          key={product.id}
-          product={product}
-          quantity={quantities[product.id] || 0}
-          onQuantityChange={(delta) => handleQuantityChange(product.id, delta)}
-          onAddToCart={addToCart}
-        />
-      ))}
+    <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap', padding: '2rem' }}>
+      {loading ? (
+        <p>Cargando productos...</p>
+      ) : (
+        products.map((product) => (
+          <ProductCard
+            key={product.id}
+            product={product}
+            onAddToCart={addToCart}
+          />
+        ))
+      )}
     </div>
   );
 };
