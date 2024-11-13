@@ -1,0 +1,287 @@
+/* General */
+body {
+  background-image: url("http://localhost:5000/images/background.jpg"); /* Usa el nombre de la imagen */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  font-family: "Arial", sans-serif;
+  color: #333;
+  margin: 0;
+  padding-bottom: 3.5rem; /* Ajusta según el tamaño de tu footer */
+}
+.home-background {
+  text-align: center;
+  padding: 2rem;
+  color: #355c7d;
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  background-attachment: fixed;
+}
+
+/* Contenedor principal del carrito */
+.cart-items-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+  padding: 1rem; /* Reducido el padding para que sea más pequeño */
+  width: 90%;
+  max-width: 600px; /* Reducir el ancho máximo del carrito */
+  margin: 2rem auto; /* Centrar el carrito en la página */
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+
+/* Estilo de los ítems del carrito */
+.cart-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 0.8rem; /* Reducir padding para hacerlo más pequeño */
+  width: 100%;
+  max-width: 500px; /* Reducir el tamaño máximo de los productos */
+  margin-bottom: 1rem;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+}
+
+/* Imagen del producto */
+.cart-item img {
+  width: 140px; /* Reducir el tamaño de la imagen */
+  height: 140px;
+  border-radius: 8px;
+  object-fit: cover;
+  margin-right: 1rem;
+}
+
+/* Información del producto */
+.cart-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 60%; /* Reducir el tamaño de la información */
+}
+
+.cart-item-info h3 {
+  text-decoration: underline;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.cart-item-info p {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.cart-item-info .item-price {
+  font-weight: bold;
+  font-size: 1.05rem;
+  color: #333;
+}
+
+/* Botón de eliminar */
+.cart-item button {
+  padding: 0.5rem 1rem; /* Reducir el tamaño del botón */
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.cart-item button:hover {
+  background-color: #c0392b; /* Rojo oscuro */
+  transform: scale(1.05); /* Efecto de escala en hover */
+}
+
+.cart-item button:active {
+  transform: scale(1); /* Reajuste al presionar */
+}
+
+/* Botones de acción (Finalizar compra y Cancelar) */
+.cart-actions {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.cart-actions button {
+  padding: 0.7rem 1.5rem; /* Reducir tamaño del botón */
+  background-color: #2ecc71;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.cart-actions button:hover {
+  background-color: #27ae60; /* Verde oscuro */
+  transform: translateY(-2px); /* Efecto de levitación al pasar el ratón */
+}
+
+.cart-actions button:disabled {
+  background-color: #bdc3c7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Total del carrito */
+.cart-total {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  margin-top: 1rem;
+}
+
+/* Botón de pago */
+button {
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+button:focus {
+  outline: none;
+}
+
+/* Estilo de las tarjetas de productos */
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(250px, 1fr)
+  ); /* Esto hará que las tarjetas se ajusten al tamaño disponible */
+  gap: 2rem; /* Espacio entre las tarjetas */
+  padding: 2rem;
+  justify-items: center; /* Centra las tarjetas dentro de sus celdas */
+  background-color: #f7f7f7;
+  max-width: 1200px; /* Limita el ancho del contenedor */
+  margin: 0 auto; /* Centra el contenedor en la pantalla */
+}
+
+.product-card {
+  background-color: #fdf2f2;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  text-align: center;
+  width: 100%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  max-width: 250px;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.product-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.product-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #3c3c3c;
+  margin: 0.8rem 0;
+}
+
+.product-price {
+  font-size: 1.1rem;
+  color: #eb93d7;
+  margin-bottom: 1rem;
+}
+
+/* Controles de cantidad */
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.quantity-controls button {
+  padding: 0.5rem 1rem;
+  background-color: #a1ddc5;
+  color: #c84646;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.quantity-controls button:hover {
+  background-color: #8fc8a2;
+}
+
+.quantity-controls span {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Botón de agregar al carrito */
+.add-to-cart-btn {
+  background-color: #f6c8ef;
+  color: white;
+  margin: 15px;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.add-to-cart-btn:hover {
+  background-color: #eb93d7;
+}
+
+footer {
+  background-color: #f67280;
+  padding: 1rem;
+  text-align: center;
+  color: white;
+  margin-top: 1rem;
+}
+
+footer p {
+  margin: 0.5rem 0;
+}
+
+footer .social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+footer .social-icons i {
+  font-size: 1.5rem;
+  color: #fff;
+  cursor: pointer;
+}
+
+footer .social-icons i:hover {
+  color: #f6c8ef;
+}
+.cart-page-header {
+  text-align: center;
+  text-decoration: underline;
+}
