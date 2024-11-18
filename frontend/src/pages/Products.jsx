@@ -16,14 +16,14 @@ const Products = ({ addToCart }) => {
         }
 
         const data = await response.json();
-        setProducts(data); // Establece los productos en el estado
+        setProducts(data);
       } catch (error) {
         console.error("Error fetching products: ", error);
         setError(
           "Error al cargar los productos. Por favor, verifica el backend."
         );
       } finally {
-        setLoading(false); // Cambia el estado de carga cuando la solicitud finalice
+        setLoading(false);
       }
     };
 
@@ -31,27 +31,23 @@ const Products = ({ addToCart }) => {
   }, []);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        gap: "2rem",
-        flexWrap: "wrap",
-        padding: "2rem",
-      }}
-    >
-      {loading ? (
-        <p>Cargando productos...</p>
-      ) : error ? (
-        <p>{error}</p> 
-      ) : (
-        products.map((product) => (
-          <ProductCard
-            key={product.id}
-            product={product}
-            addToCart={addToCart} 
-          />
-        ))
-      )}
+    <div className="titulo">
+      <h3>Cupcake Store</h3>
+      <div className="principal">
+        {loading ? (
+          <p>Cargando productos...</p>
+        ) : error ? (
+          <p>{error}</p>
+        ) : (
+          products.map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              addToCart={addToCart}
+            />
+          ))
+        )}
+      </div>
     </div>
   );
 };

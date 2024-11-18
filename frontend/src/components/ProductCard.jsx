@@ -11,7 +11,7 @@ const ProductCard = ({ product, addToCart }) => {
     <div className="product-card">
       <img
         src={`http://localhost:5000/images/${product.image}`}
-        alt={product.name}
+        alt={product.nombre}
         className="product-image"
       />
       <h2 className="product-name">{product.name}</h2>

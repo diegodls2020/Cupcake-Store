@@ -9,7 +9,7 @@ const Navbar = ({ cart }) => {
         display: "flex",
         justifyContent: "space-between",
         padding: "1rem",
-        backgroundColor: "#f8b195",
+        backgroundColor: "#f67280",
       }}
     >
       <Link
