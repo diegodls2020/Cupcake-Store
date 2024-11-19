@@ -16,14 +16,14 @@ const Products = ({ addToCart }) => {
         }
 
         const data = await response.json();
-        setProducts(data);
+        setProducts(data); // Asignar productos a la variable de estado
       } catch (error) {
-        console.error("Error fetching products: ", error);
+        console.error("Error fetching products: ", error); // Log para detalles del error
         setError(
-          "Error al cargar los productos. Por favor, verifica el backend."
+          "No se pueden cargar los productos. Por favor, verifica el backend."
         );
       } finally {
-        setLoading(false);
+        setLoading(false); // Termina el loading
       }
     };
 

@@ -1,4 +1,3 @@
-// controllers/checkoutController.js
 const db = require('../config/db');
 
 exports.createOrder = async (req, res) => {
@@ -8,60 +7,53 @@ exports.createOrder = async (req, res) => {
     return res.status(400).json({ message: "Faltan datos en la solicitud." });
   }
 
+  const connection = await db.getConnection();  // Obtener conexión para manejar transacciones
   try {
+    await connection.beginTransaction(); // Iniciar la transacción
+
     // Crear la compra en la base de datos
     const queryCompra = `
       INSERT INTO compras (nombre_cliente, direccion_envio, total, fecha)
       VALUES (?, ?, ?, NOW())`;
-    db.query(queryCompra, [userName, userAddress, totalAmount], (err, result) => {
-      if (err) {
-        console.error('Error al crear la compra:', err);
-        return res.status(500).json({ message: "Hubo un error al procesar la compra." });
+    const [resultCompra] = await connection.query(queryCompra, [userName, userAddress, totalAmount]);
+    const compraId = resultCompra.insertId;
+
+    // Guardar los detalles de la compra (productos y cantidades)
+    const queryDetalles = `
+      INSERT INTO detalles_compras (compra_id, producto_id, cantidad, precio)
+      VALUES (?, ?, ?, ?)`;
+
+    for (let item of cartItems) {
+      const { id, quantity } = item;
+
+      // Consultar si el producto existe
+      const queryProducto = 'SELECT * FROM productos WHERE id = ?';
+      const [rows] = await connection.query(queryProducto, [id]);
+
+      if (rows.length > 0) {
+        const producto = rows[0];
+        const precio = producto.precio;
+
+        // Insertar en detalles_compras
+        await connection.query(queryDetalles, [compraId, id, quantity, precio]);
+      } else {
+        await connection.rollback();  // Revertir transacción si el producto no existe
+        return res.status(400).json({ message: `Producto con ID ${id} no encontrado` });
       }
+    }
 
-      const compraId = result.insertId;
+    // Confirmar la transacción
+    await connection.commit();
 
-      // Guardar los detalles de la compra (productos y cantidades)
-      const queryDetalles = `
-        INSERT INTO detalles_compras (compra_id, producto_id, cantidad, precio)
-        VALUES (?, ?, ?, ?)`;
-
-      // Para cada producto en el carrito
-      cartItems.forEach((item) => {
-        const { id, quantity } = item;
-
-        // Consultar si el producto existe
-        const queryProducto = 'SELECT * FROM productos WHERE id = ?';
-        db.query(queryProducto, [id], (err, rows) => {
-          if (err) {
-            console.error('Error al consultar producto:', err);
-            return;
-          }
-
-          if (rows.length > 0) {
-            const producto = rows[0];
-            const precio = producto.precio;
-
-            // Insertar en detalles_compras
-            db.query(queryDetalles, [compraId, id, quantity, precio], (err) => {
-              if (err) {
-                console.error('Error al agregar detalle de compra:', err);
-                return;
-              }
-            });
-          } else {
-            console.error(`Producto con ID ${id} no encontrado.`);
-          }
-        });
-      });
-
-      // Responder con mensaje de éxito
-      res.status(200).json({
-        message: "Pago realizado con éxito. Sus Cupcakes serán entregados en 2 horas.",
-      });
+    // Responder con mensaje de éxito
+    res.status(200).json({
+      message: "Pago realizado con éxito. Sus Cupcakes serán entregados en 2 horas.",
     });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Hubo un error al procesar la compra." });
+    console.error("Error al procesar la orden:", error);
+    await connection.rollback();  // Revertir en caso de error
+    res.status(500).json({ message: "Error al procesar la orden." });
+  } finally {
+    connection.release();  // Liberar la conexión
   }
 };

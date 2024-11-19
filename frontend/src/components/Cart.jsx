@@ -20,10 +20,10 @@ const Cart = ({ cart, onRemoveFromCart, onClearCart, onCheckout }) => {
                 <p>Precio: ${item.price.toFixed(2)}</p>
                 <p>Cantidad: {item.quantity}</p>
                 <p>Total: ${(item.price * item.quantity).toFixed(2)}</p>
-                <button onClick={() => onRemoveFromCart(item.id)}>
-                  Eliminar
-                </button>
               </div>
+              <button onClick={() => onRemoveFromCart(item.id)}>
+                Eliminar
+              </button>
             </div>
           ))}
           <div className="cart-actions">
