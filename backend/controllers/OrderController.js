@@ -59,3 +59,13 @@ exports.getOrders = async (req, res) => {
     res.status(500).json({ message: "Error al obtener las órdenes." });
   }
 };
+export default {
+  createOrder: (req, res) => {
+    // Lógica para crear una orden
+    res.status(201).json({ message: "Orden creada" });
+  },
+  getOrders: (req, res) => {
+    // Lógica para obtener todas las órdenes
+    res.status(200).json([{ id: 1, user: "Diego", total: 15 }]);
+  },
+};
