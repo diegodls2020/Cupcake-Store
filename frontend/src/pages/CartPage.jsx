@@ -1,83 +1,51 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom"; // Usamos useNavigate para redirigir
+import { useNavigate } from "react-router-dom";
+import { useCart } from "../context/CartContext"; // Importar correctamente el hook
+
 import "../App.css";
 
 const CartPage = ({ cart, checkout }) => {
+  const { clearCart } = useCart(); // Obtener clearCart dentro del componente
   const [address, setAddress] = useState("");
-  const [userName, setUserName] = useState(""); // Nuevo campo para el nombre
+  const [userName, setUserName] = useState("");
   const [paymentMessage, setPaymentMessage] = useState("");
-  const navigate = useNavigate(); // Hook para redirigir al home
+  const navigate = useNavigate();
 
-  const getTotal = () => {
-    return cart.reduce((total, item) => {
-      const price = parseFloat(item.price) || 0;
-      const quantity = parseInt(item.quantity, 10) || 0;
-      return total + price * quantity;
-    }, 0);
-  };
+  const getTotal = () =>
+    cart.reduce(
+      (total, item) =>
+        total +
+        (parseFloat(item.price) || 0) * (parseInt(item.quantity, 10) || 0),
+      0
+    );
 
-  const handleCheckout = async () => {
+  const handlePayment = async () => {
     if (!userName || !address) {
-      setPaymentMessage("Por favor, insira seu nome e endereço de entrega.");
+      setPaymentMessage("Por favor, completa todos los campos.");
       return;
     }
 
+    const totalAmount = getTotal();
     try {
-      console.log("Datos enviados:", {
-        cartItems: cart,
-        totalAmount: getTotal(),
-        userName,
-        userAddress: address,
-      }); // Verifica los datos enviados
-
-      const response = await axios.post("http://localhost:5000/api/checkout", {
-        cartItems: cart,
-        totalAmount: getTotal(),
-        userName,
-        userAddress: address,
-      });
-
-      setPaymentMessage(response.data.message);
-      checkout(cart);
-      setUserName("");
-      setAddress("");
-      if (response.data.redirectTo) {
-        navigate(response.data.redirectTo);
-      }
-    } catch (error) {
-      console.error(error);
-      setPaymentMessage(
-        "Ocorreu um erro ao processar a compra. Por favor, tente novamente. "
-      );
-    }
-
-    try {
-      // Realizar el pago y guardar la compra en el backend
       const response = await axios.post("http://localhost:5000/api/orders", {
         cartItems: cart,
-        totalAmount: getTotal(),
+        totalAmount,
         userName,
         userAddress: address,
       });
 
-      setPaymentMessage(response.data.message); // Mensaje de éxito desde el backend
+      console.log("Respuesta del backend: ", response.data);
 
-      // Limpiar el carrito si la compra es exitosa
-      checkout(cart);
+      if (response.data.clearCart) {
+        clearCart();
+        console.log("Carrito después de limpiar: ", cart);
+      }
 
-      // Limpiar los campos después de la compra
-      setUserName("");
-      setAddress("");
-
-      // Redirigir al home si el pago fue exitoso
-      // Redirigir al inicio y enviar el mensaje como estado
       navigate("/", { state: { paymentMessage: response.data.message } });
     } catch (error) {
-      console.error(error);
-      setPaymentMessage(
-        "Ocorreu um erro ao processar a compra. Por favor, tente novamente."
-      );
+      console.error("Error en el pago: ", error);
+      setPaymentMessage("Ocurrió un error al procesar la compra.");
     }
   };
 
@@ -104,37 +72,35 @@ const CartPage = ({ cart, checkout }) => {
                 />
                 <div className="cart-item-info">
                   <h3>{item.name}</h3>
-                  <p>Preço: R$ {price.toFixed(2)}</p>
-                  <p>Quantidade: {quantity}</p>
+                  <p>Precio: $ {price.toFixed(2)}</p>
+                  <p>Cantidad: {quantity}</p>
                   <p>
-                    <strong>Total: R$ {totalItem.toFixed(2)}</strong>
+                    <strong>Total: $ {totalItem.toFixed(2)}</strong>
                   </p>
                 </div>
               </div>
             );
           })}
-          <h3 className="cart-total">Total: R$ {getTotal().toFixed(2)}</h3>
+          <h3 className="cart-total">Total: $ {getTotal().toFixed(2)}</h3>
           <div className="cart-checkout">
-            {/* Campo para el nombre del usuario */}
             <input
               type="text"
               value={userName}
               onChange={(e) => setUserName(e.target.value)}
-              placeholder="Nome do cliente"
+              placeholder="Nombre del cliente"
               className="input-name"
               required
             />
-            {/* Campo para la dirección de envío */}
             <input
               type="text"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
-              placeholder="Endereço"
+              placeholder="Dirección"
               className="input-address"
               required
             />
-            <button onClick={handleCheckout} className="checkout-btn">
-              Pagamento
+            <button onClick={handlePayment} className="checkout-btn">
+              Pagar
             </button>
             {paymentMessage && (
               <p className="payment-message">{paymentMessage}</p>

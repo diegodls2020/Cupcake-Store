@@ -40,6 +40,7 @@ exports.createOrder = async (req, res) => {
     res.status(200).json({
       message:
         "Pago realizado con éxito, sus Cupcakes serán entregados en 2 horas.",
+      clearCart: true,
       redirectTo: "/",
     });
   } catch (error) {

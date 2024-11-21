@@ -36,7 +36,7 @@ const App = () => {
 
   // Función para limpiar el carrito
   const clearCart = () => {
-    setCart([]);
+    setCart([]); // Limpiar el carrito
   };
 
   const handleAddressChange = (event) => {
@@ -55,7 +55,6 @@ const App = () => {
   // Lógica de pago y redirección
   const checkout = () => {
     if (!isAuthenticated) {
-      setPaymentMessage("Por favor, inicia sesión para realizar el pago.");
       navigate("/login"); // Redirigir a login si no está autenticado
       return;
     }
@@ -67,11 +66,13 @@ const App = () => {
       return;
     }
 
+    // Procesamiento de pago
     setPaymentStatus("success");
     setPaymentMessage("¡Pago realizado con éxito! Gracias por tu compra.");
-    clearCart(); // Limpiar el carrito
 
-    // Limpiar el mensaje de pago después de 2 segundos
+    clearCart(); // Limpiar el carrito después de la compra
+
+    // Limpiar el mensaje de pago después de 2 segundos y redirigir
     setTimeout(() => {
       setPaymentStatus(null);
       setPaymentMessage("");

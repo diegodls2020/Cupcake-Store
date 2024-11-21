@@ -13,10 +13,4 @@ exports.getAllProducts = async (req, res) => {
       error: "Error interno del servidor al obtener los productos.",
     });
   }
-
-
-
-
-
-
 };

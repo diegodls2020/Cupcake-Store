@@ -13,15 +13,10 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      {/* Mostrar el mensaje de éxito si existe */}
-      {paymentMessage && (
-        <div className="success-message">{paymentMessage}</div>
-      )}
-
       <div className="home-content">
         <h2>Benvindos a Cupcake Store</h2>
         <p>
-          Conheça nossos deliciosos cupcakes, feitos com amor e o melhor
+          Conheça nossos deliciosos cupcakes, feitos com amor e os melhores
           ingredientes. Adoce o seu dia com nossos sabores irresistíveis!
         </p>
         {/* Botón que redirige a la página de productos */}
@@ -31,12 +26,20 @@ const Home = () => {
       </div>
 
       <div className="home-image">
-        <img
-          src={`http://localhost:5000/images/background.jpg`}
-          alt="Cupcakes"
-          className="home-img"
-        />
+        <video
+          src={`http://localhost:5000/images/Fondo_cupcake.mp4`}
+          className="home-video"
+          autoPlay
+          loop
+          muted
+        >
+          Tu navegador no soporta videos.
+        </video>
       </div>
+      {/* Mostrar el mensaje de éxito si existe */}
+      {paymentMessage && (
+        <div className="success-message">{paymentMessage}</div>
+      )}
     </div>
   );
 };
