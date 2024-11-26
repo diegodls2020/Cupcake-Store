@@ -7,10 +7,49 @@ body {
   background-position: center;
   color: #333;
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   padding-bottom: 3.5rem;
   font-size: 1.2em;
 }
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* La página debe ocupar al menos el alto de la ventana */
+}
+main {
+  flex: 1;
+}
+/* Footer */
+/* Estilo del footer */
+footer {
+  background-color: #f67280;
+  padding: 1rem;
+  text-align: center;
+  color: white;
+  margin-top: auto;
+}
 
+footer p {
+  margin: 0.5rem 0;
+}
+
+footer .social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+footer .social-icons i {
+  font-size: 1.5rem;
+  color: #fff;
+  cursor: pointer;
+}
+
+footer .social-icons i:hover {
+  color: #f6c8ef;
+}
 .principal {
   display: flex;
   gap: 4rem;
@@ -328,35 +367,6 @@ a {
 
 a:hover {
   text-decoration: underline;
-}
-
-/* Footer */
-footer {
-  background-color: #f67280;
-  padding: 1rem;
-  text-align: center;
-  color: white;
-  margin-top: 2rem;
-}
-
-footer p {
-  margin: 0.5rem 0;
-}
-
-footer .social-icons {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-}
-
-footer .social-icons i {
-  font-size: 1.5rem;
-  color: #fff;
-  cursor: pointer;
-}
-
-footer .social-icons i:hover {
-  color: #f6c8ef;
 }
 
 .login-container {
@@ -731,7 +741,145 @@ a:hover {
   }
 
   .home-img {
-    width: 90%; /* Ocupa casi todo el ancho */
+    width: 70%; /* Ocupa casi todo el ancho */
     max-width: 50px; /* Tamaño límite */
   }
+  /* Fondo desplazable en móviles */
+  @media (max-width: 768px) {
+    body {
+      background-attachment: scroll; /* Cambiar a scroll en dispositivos móviles */
+    }
+  }
+}
+.divContact {
+  background-color: #f9f3e9; /* Color suave, estilo pastel */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-family: "Arial", sans-serif;
+  max-width: 600px;
+  margin: 20px auto;
+  text-align: center;
+}
+
+.divContact h2 {
+  color: #d9776f; /* Color rosa pastel */
+  font-size: 2rem;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.pContact {
+  color: #555; /* Color de texto suave */
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.pContact strong {
+  color: #d9776f; /* Resaltar información importante */
+}
+
+.divContact p {
+  color: #777;
+  font-size: 0.9rem;
+  margin: 5px 0;
+}
+
+.divContact a {
+  color: #d9776f;
+  text-decoration: none;
+}
+
+.divContact a:hover {
+  text-decoration: underline;
+}
+/* Estilos generales */
+.admin-page {
+  font-family: "Arial", sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f7fb;
+}
+
+.admin-page h2 {
+  text-align: center;
+  color: #333;
+  margin-top: 20px;
+  font-size: 2em;
+}
+
+.admin-page h3 {
+  color: #333;
+  margin-top: 30px;
+  font-size: 1.8em;
+  text-align: center;
+}
+
+/* Estilos para la lista de pedidos */
+.admin-page .order-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.admin-page .order-item {
+  background-color: #fff;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-page .order-item:hover {
+  transform: scale(1.02);
+  transition: all 0.2s ease;
+}
+
+/* Estilos de los botones */
+.admin-page .order-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.admin-page .order-button:hover {
+  background-color: #0056b3;
+  transition: background-color 0.3s;
+}
+
+/* Estilos de los detalles de la orden */
+.admin-page .details-list {
+  margin-top: 20px;
+  padding: 0;
+  list-style-type: none;
+}
+
+.admin-page .details-item {
+  background-color: #f9f9f9;
+  padding: 12px;
+  margin: 8px 0;
+  border-left: 5px solid #007bff;
+  font-size: 1.1em;
+}
+
+.admin-page .details-item span {
+  font-weight: bold;
+}
+
+/* Estilos para los mensajes de error */
+.admin-page .error {
+  color: red;
+  text-align: center;
+  font-size: 1.2em;
+  margin-top: 20px;
+}
+.details-item {
+  text-align: center;
 }

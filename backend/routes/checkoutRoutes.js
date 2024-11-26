@@ -1,8 +1,13 @@
-const express = require("express");
-const router = express.Router();
+// Cambiar importación ES6 a CommonJS
 const checkoutController = require("../controllers/checkoutController");
 
-// Ruta para procesar la compra
-router.post("/checkout", checkoutController.createOrder);
+module.exports = function handler(req, res) {
+  const { method } = req;
 
-module.exports = router;
+  if (method === "POST") {
+    checkoutController.createOrder(req, res);
+  } else {
+    res.setHeader("Allow", ["POST"]);
+    res.status(405).end(`Method ${method} Not Allowed`);
+  }
+};

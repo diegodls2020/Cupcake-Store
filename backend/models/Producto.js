@@ -1,4 +1,4 @@
-const db = require("../config/db"); // Conexión a la base de datos
+const db = require("../config/db"); 
 
 class Producto {
   // Obtener todos los productos

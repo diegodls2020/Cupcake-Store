@@ -12,7 +12,7 @@ const Login = ({ setIsAuthenticated }) => {
     if (email === "diego@gmail.com" && password === "Diego123") {
       setIsAuthenticated(true);
       setError("");
-      navigate("/");
+      navigate("/admin");
     } else {
       setError("Credenciales incorrectas");
     }

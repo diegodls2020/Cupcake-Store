@@ -8,6 +8,7 @@ import Contact from "./pages/Contact";
 import CartPage from "./pages/CartPage";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import AdminPage from "./components/AdminPage"; // Importa el componente AdminPage
 
 const App = () => {
   const [cart, setCart] = useState([]);
@@ -96,6 +97,7 @@ const App = () => {
           path="/login"
           element={<Login setIsAuthenticated={setIsAuthenticated} />}
         />
+        <Route path="/admin" element={<AdminPage />} /> {/* Nueva ruta */}
       </Routes>
       <Footer />
 

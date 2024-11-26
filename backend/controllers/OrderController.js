@@ -1,6 +1,11 @@
-// Importa solo lo necesario
-const { getProductById } = require("../models/Producto"); // De Producto
-const { createOrder, addOrderDetail } = require("../models/Orders"); // De Orders
+const {
+  createOrder,
+  addOrderDetail,
+  getOrders,
+  getOrderDetails,
+} = require("../models/Orders");
+const { getProductById } = require("../models/Producto");
+const Orders = require("../models/Orders");
 
 // Crear una nueva orden
 exports.createOrder = async (req, res) => {
@@ -10,7 +15,7 @@ exports.createOrder = async (req, res) => {
     totalAmount,
     userName,
     userAddress,
-  }); // Log para verificar
+  });
 
   try {
     // Crear la orden en la base de datos
@@ -18,10 +23,9 @@ exports.createOrder = async (req, res) => {
 
     // Procesar los detalles de la compra
     for (let item of cartItems) {
-      const producto = await getProductById(item.id); // Obtener el producto por ID
+      const producto = await getProductById(item.id);
 
       if (producto) {
-        // Agregar el detalle de la orden
         await addOrderDetail(
           orderId,
           producto.id,
@@ -29,17 +33,15 @@ exports.createOrder = async (req, res) => {
           producto.price
         );
       } else {
-        // Si no se encuentra el producto
         return res
           .status(400)
           .json({ message: `Producto con ID ${item.id} no encontrado` });
       }
     }
 
-    // Responder con éxito
     res.status(200).json({
       message:
-        "Pago realizado con éxito, sus Cupcakes serán entregados en 2 horas.",
+        "Pagamento realizado com sucesso, seus Cupcakes serão entregues em 2 horas.",
       clearCart: true,
       redirectTo: "/",
     });
@@ -50,22 +52,36 @@ exports.createOrder = async (req, res) => {
 };
 
 // Obtener todas las órdenes
+
 exports.getOrders = async (req, res) => {
   try {
-    const [orders] = await db.execute("SELECT * FROM compras");
+    const orders = await Orders.getOrders(); // Llama al modelo
     res.status(200).json(orders);
   } catch (error) {
-    console.error("Error al obtener las órdenes:", error);
-    res.status(500).json({ message: "Error al obtener las órdenes." });
+    console.error("Error al obtener las órdenes:", error.message);
+    res.status(500).json({ error: "Error interno del servidor" });
   }
 };
-export default {
-  createOrder: (req, res) => {
-    // Lógica para crear una orden
-    res.status(201).json({ message: "Orden creada" });
-  },
-  getOrders: (req, res) => {
-    // Lógica para obtener todas las órdenes
-    res.status(200).json([{ id: 1, user: "Diego", total: 15 }]);
-  },
+// Obtener detalles de una orden
+exports.getOrderDetails = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const details = await getOrderDetails(id); // Llama al modelo
+    res.status(200).json(details); // Retorna los detalles
+  } catch (error) {
+    console.error("Error al obtener los detalles de la orden:", error.message);
+    res.status(500).json({ message: "Error interno del servidor" });
+  }
+};
+
+exports.getOrderDetailsById = async (req, res) => {
+  const { orderId } = req.params;
+
+  try {
+    const details = await getOrderDetails(orderId);
+    res.status(200).json(details); // Enviar detalles al cliente
+  } catch (error) {
+    console.error("Error al obtener los detalles:", error.message);
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
 };

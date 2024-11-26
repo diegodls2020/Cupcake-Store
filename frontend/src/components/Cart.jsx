@@ -3,9 +3,9 @@ import React from "react";
 const Cart = ({ cart, onRemoveFromCart, onClearCart, onCheckout }) => {
   return (
     <div className="cart-container">
-      <h2>Carrito de Compras</h2>
+      <h2>Carrinho de compras</h2>
       {cart.length === 0 ? (
-        <p>El carrito está vacío.</p>
+        <p>O carrinho está vazio.</p>
       ) : (
         <div>
           {cart.map((item) => (
@@ -17,8 +17,8 @@ const Cart = ({ cart, onRemoveFromCart, onClearCart, onCheckout }) => {
               />
               <div className="cart-item-info">
                 <h3>{item.name}</h3>
-                <p>Precio: ${item.price.toFixed(2)}</p>
-                <p>Cantidad: {item.quantity}</p>
+                <p>Preço: ${item.price.toFixed(2)}</p>
+                <p>Quantia: {item.quantity}</p>
                 <p>Total: ${(item.price * item.quantity).toFixed(2)}</p>
               </div>
               <button onClick={() => onRemoveFromCart(item.id)}>

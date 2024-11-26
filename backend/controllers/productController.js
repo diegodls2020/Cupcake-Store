@@ -14,8 +14,8 @@ exports.getAllProducts = async (req, res) => {
     });
   }
 };
-export default {
+/*export default {
   getAllProducts: (req, res) => {
     res.status(200).json([{ id: 1, name: "Cupcake", price: 5 }]);
   },
-};
+};*/

@@ -20,7 +20,7 @@ const Products = ({ addToCart }) => {
       } catch (error) {
         console.error("Error fetching products: ", error); // Log para detalles del error
         setError(
-          "No se pueden cargar los productos. Por favor, verifica el backend."
+          "Os produtos não podem ser carregados. Por favor, verifique o back-end."
         );
       } finally {
         setLoading(false); // Termina el loading
@@ -35,7 +35,7 @@ const Products = ({ addToCart }) => {
       <h3>Cupcake Store</h3>
       <div className="principal">
         {loading ? (
-          <p>Cargando productos...</p>
+          <p>Carregando produtos...</p>
         ) : error ? (
           <p>{error}</p>
         ) : (

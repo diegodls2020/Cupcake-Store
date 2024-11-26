@@ -66,9 +66,9 @@ exports.createOrder = async (req, res) => {
     connection.release(); // Liberar la conexión
   }
 };
-export default {
+/*export default {
   createOrder: (req, res) => {
     // Lógica para procesar la compra
     res.status(200).json({ message: "Compra procesada con éxito" });
   },
-};
+};*/

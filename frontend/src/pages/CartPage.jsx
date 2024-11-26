@@ -5,8 +5,8 @@ import { useCart } from "../context/CartContext"; // Importar correctamente el h
 
 import "../App.css";
 
-const CartPage = ({ cart, checkout }) => {
-  const { clearCart } = useCart(); // Obtener clearCart dentro del componente
+const CartPage = () => {
+  const { cart, clearCart } = useCart(); // Obtener `cart` y `clearCart` directamente del contexto
   const [address, setAddress] = useState("");
   const [userName, setUserName] = useState("");
   const [paymentMessage, setPaymentMessage] = useState("");
@@ -22,7 +22,7 @@ const CartPage = ({ cart, checkout }) => {
 
   const handlePayment = async () => {
     if (!userName || !address) {
-      setPaymentMessage("Por favor, completa todos los campos.");
+      setPaymentMessage("Por favor preencha todos os campos.");
       return;
     }
 
@@ -35,14 +35,13 @@ const CartPage = ({ cart, checkout }) => {
         userAddress: address,
       });
 
-      console.log("Respuesta del backend: ", response.data);
-
       if (response.data.clearCart) {
-        clearCart();
-        console.log("Carrito después de limpiar: ", cart);
+        clearCart(); // Vaciar el carrito en el contexto
+        setPaymentMessage(response.data.message);
+        setTimeout(() => {
+          navigate("/", { state: { paymentMessage: response.data.message } });
+        }, 1000);
       }
-
-      navigate("/", { state: { paymentMessage: response.data.message } });
     } catch (error) {
       console.error("Error en el pago: ", error);
       setPaymentMessage("Ocurrió un error al procesar la compra.");
@@ -51,10 +50,10 @@ const CartPage = ({ cart, checkout }) => {
 
   return (
     <div className="cart-page">
-      <h2 className="cart-page-header">Resumen de la Compra</h2>
+      <h2 className="cart-page-header">Resumo da compra</h2>
       {cart.length === 0 ? (
         <p className="cart-empty">
-          Agrega productos a tu carrito para empezar.
+          Adicione produtos ao seu carrinho para começar.
         </p>
       ) : (
         <div className="cart-items-container">
@@ -72,8 +71,8 @@ const CartPage = ({ cart, checkout }) => {
                 />
                 <div className="cart-item-info">
                   <h3>{item.name}</h3>
-                  <p>Precio: $ {price.toFixed(2)}</p>
-                  <p>Cantidad: {quantity}</p>
+                  <p>Preço: $ {price.toFixed(2)}</p>
+                  <p>Quantidade: {quantity}</p>
                   <p>
                     <strong>Total: $ {totalItem.toFixed(2)}</strong>
                   </p>
@@ -87,7 +86,7 @@ const CartPage = ({ cart, checkout }) => {
               type="text"
               value={userName}
               onChange={(e) => setUserName(e.target.value)}
-              placeholder="Nombre del cliente"
+              placeholder="Nome do cliente"
               className="input-name"
               required
             />
@@ -95,12 +94,12 @@ const CartPage = ({ cart, checkout }) => {
               type="text"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
-              placeholder="Dirección"
+              placeholder="Endereço"
               className="input-address"
               required
             />
             <button onClick={handlePayment} className="checkout-btn">
-              Pagar
+              Pagamento
             </button>
             {paymentMessage && (
               <p className="payment-message">{paymentMessage}</p>

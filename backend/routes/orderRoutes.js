@@ -1,11 +1,14 @@
 const express = require("express");
-const router = express.Router();
-const orderController = require("../controllers/OrderController");
+const router = express.Router(); 
+const {
+  createOrder,
+  getOrders,
+  getOrderDetails,
+} = require("../controllers/orderController");
 
-// Ruta para crear una nueva orden
-router.post("/", orderController.createOrder);
+// Registrar las rutas
+router.post("/", createOrder); // Crear nueva orden
+router.get("/", getOrders); // Obtener todas las órdenes
+router.get("/:id", getOrderDetails); // Obtener detalles de una orden por ID
 
-// Ruta para obtener las órdenes
-router.get("/", orderController.getOrders);
-
-module.exports = router;
+module.exports = router; // Exportar el router

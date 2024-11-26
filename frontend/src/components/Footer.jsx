@@ -9,7 +9,7 @@ import {
 const Footer = () => {
   return (
     <footer>
-      <p>Síguenos en:</p>
+      <p>Siga-nos em:</p>
       <div className="social-icons">
         <FontAwesomeIcon icon={faFacebook} />
         <FontAwesomeIcon icon={faInstagram} />

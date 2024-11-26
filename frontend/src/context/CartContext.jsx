@@ -1,50 +1,51 @@
 import React, { createContext, useContext, useState } from "react";
-import "../App.css";
+
+// Creamos el contexto
 const CartContext = createContext();
 
-export const useCart = () => {
-  return useContext(CartContext);
-};
-
+// Proveedor del contexto
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
 
+  // Función para agregar productos al carrito
   const addToCart = (product) => {
-    setCart((prevCart) => {
-      const existingProduct = prevCart.find((item) => item.id === product.id);
-      if (existingProduct) {
-        return prevCart.map((item) =>
+    const existingProduct = cart.find((item) => item.id === product.id);
+
+    if (existingProduct) {
+      setCart((prevCart) =>
+        prevCart.map((item) =>
           item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
+            ? { ...item, quantity: item.quantity + product.quantity }
             : item
-        );
-      }
-      return [...prevCart, { ...product, quantity: 1 }];
-    });
+        )
+      );
+    } else {
+      setCart((prevCart) => [...prevCart, { ...product }]);
+    }
   };
 
-  const removeFromCart = (productId) => {
-    setCart((prevCart) => prevCart.filter((item) => item.id !== productId));
-  };
-
-  const updateQuantity = (productId, newQuantity) => {
-    if (newQuantity <= 0) return;
+  // Función para actualizar la cantidad de productos en el carrito
+  const updateQuantity = (productId, quantity) => {
     setCart((prevCart) =>
       prevCart
-        .map((item) =>
-          item.id === productId ? { ...item, quantity: newQuantity } : item
-        )
+        .map((item) => (item.id === productId ? { ...item, quantity } : item))
         .filter((item) => item.quantity > 0)
     );
   };
 
-  const clearCart = () => setCart([]);
+  // Función para vaciar el carrito
+  const clearCart = () => {
+    setCart([]);
+  };
 
   return (
     <CartContext.Provider
-      value={{ cart, addToCart, removeFromCart, updateQuantity, clearCart }}
+      value={{ cart, addToCart, updateQuantity, clearCart }}
     >
       {children}
     </CartContext.Provider>
   );
 };
+
+// Hook para acceder al contexto del carrito
+export const useCart = () => useContext(CartContext);

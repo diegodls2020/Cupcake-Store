@@ -3,7 +3,7 @@ const cors = require("cors");
 const path = require("path");
 const productRoutes = require("./routes/productRoutes");
 const orderRoutes = require("./routes/orderRoutes");
-
+const getOrderDetails = require("./routes/orderRoutes");
 const app = express();
 
 app.use(
@@ -21,10 +21,11 @@ app.use("/images", express.static(path.join(__dirname, "public", "images")));
 // Rutas principales
 app.use("/api/products", productRoutes);
 app.use("/api/orders", orderRoutes);
+app.use("/api/orders", orderRoutes); // Registrar las rutas de órdenes
 
 // Puerto del servidor
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`Backend corriendo en el puerto ${PORT}`);
 });
