@@ -80,7 +80,7 @@ const App = () => {
       navigate("/"); // Redirigir a la página de inicio después del pago
     }, 2000);
   };
-
+  
   return (
     <>
       <Navbar cart={cart} />

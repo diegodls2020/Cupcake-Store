@@ -801,7 +801,9 @@ a:hover {
   padding: 0;
   background-color: #f4f7fb;
 }
-
+.admin-page h1{
+  text-align: center;
+}
 .admin-page h2 {
   text-align: center;
   color: #333;
@@ -882,4 +884,55 @@ a:hover {
 }
 .details-item {
   text-align: center;
+}
+.admin-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.orders-section {
+  flex: 3;
+}
+
+.product-form-section {
+  flex: 1;
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.product-form input,
+.product-form textarea {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.product-form .btn-submit {
+  width: 100%;
+  padding: 10px;
+  background: #d96b8a;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.order-item {
+  background: #fff;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  border: 1px solid #e0b4c1;
+}
+
+.order-details {
+  background: #ffe8ec;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 8px;
 }

@@ -1,13 +1,12 @@
-// Cambiar importación ES6 a CommonJS
+const express = require("express");
 const productController = require("../controllers/productController");
+const router = express.Router();
 
-module.exports = function handler(req, res) {
-  const { method } = req;
+// Ruta para obtener todos los productos
+router.get("/", productController.getAllProducts);
 
-  if (method === "GET") {
-    productController.getAllProducts(req, res);
-  } else {
-    res.setHeader("Allow", ["GET"]);
-    res.status(405).end(`Method ${method} Not Allowed`);
-  }
-};
+// Ruta para agregar un nuevo producto
+router.post("/add", productController.addProduct);
+
+
+module.exports = router;

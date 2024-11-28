@@ -1,5 +1,6 @@
 const Producto = require("../models/Producto");
 
+// Obtener todos los productos
 exports.getAllProducts = async (req, res) => {
   try {
     const products = await Producto.getAll(); // Consulta al modelo
@@ -14,8 +15,24 @@ exports.getAllProducts = async (req, res) => {
     });
   }
 };
-/*export default {
-  getAllProducts: (req, res) => {
-    res.status(200).json([{ id: 1, name: "Cupcake", price: 5 }]);
-  },
-};*/
+
+// Agregar un nuevo producto
+exports.addProduct = async (req, res) => {
+  const { name, description, price, image } = req.body;
+
+  // Validar los datos del producto
+  if (!name || !description || !price || !image) {
+    return res.status(400).json({ message: "Todos los campos son obligatorios." });
+  }
+
+  try {
+    const newProduct = await Producto.add({ name, description, price, image }); // Llama al método del modelo
+    res.status(201).json({ message: "Producto agregado exitosamente.", product: newProduct });
+  } catch (err) {
+    console.error("Error al agregar producto:", err.message);
+    res.status(500).json({
+      error: "Error interno del servidor al agregar el producto.",
+    });
+  }
+};
+

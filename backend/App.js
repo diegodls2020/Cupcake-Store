@@ -3,15 +3,16 @@ const cors = require("cors");
 const path = require("path");
 const productRoutes = require("./routes/productRoutes");
 const orderRoutes = require("./routes/orderRoutes");
-const getOrderDetails = require("./routes/orderRoutes");
 const app = express();
 
+// Middleware CORS para permitir solicitudes desde el frontend
 app.use(
   cors({
-    origin: "http://localhost:5173",
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    origin: "http://localhost:5173", // Cambia por la URL correcta de tu frontend
+    methods: ["GET", "POST", "PUT", "DELETE"], // Asegúrate de permitir POST
   })
 );
+
 // Middleware para analizar datos JSON
 app.use(express.json());
 
@@ -19,9 +20,9 @@ app.use(express.json());
 app.use("/images", express.static(path.join(__dirname, "public", "images")));
 
 // Rutas principales
-app.use("/api/products", productRoutes);
-app.use("/api/orders", orderRoutes);
-app.use("/api/orders", orderRoutes); // Registrar las rutas de órdenes
+app.use("/api/products", productRoutes); // Rutas relacionadas con productos
+app.use("/api/orders", orderRoutes); // Rutas relacionadas con órdenes
+app.use("/api/products/add", productRoutes); // Rutas relacionadas con productos
 
 // Puerto del servidor
 const PORT = process.env.PORT || 5000;
